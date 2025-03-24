@@ -1,7 +1,7 @@
 streamlit
-plotly
 numpy
 pandas
+plotly
 gspread
 oauth2client
 pickle
