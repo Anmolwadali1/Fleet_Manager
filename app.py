@@ -4,6 +4,7 @@ import plotly.express as px
 import random
 import time
 import gsheet
+import io
 
 # Simulated database of users (Replace with a real database in production)
 USER_CREDENTIALS = {
@@ -74,7 +75,10 @@ def dashboard():
 
     # Load Data (Simulated for now)
     #df = generate_data()
-    df=gsheet.read_gsheet()
+    @st.cache_data(ttl=60)  # Cache data to reduce API calls
+    def load_data():
+        return gsheet.read_gsheet()
+    df=load_data()
     #st.dataframe(df)
 
     # KPI Metrics
@@ -126,15 +130,59 @@ def dashboard():
         st.markdown("### 🚨 Unsafe Drivers Report")
         st.write(unsafe_drivers)
         st.warning("⚠️ These drivers have a safety score below 50 and are considered unsafe!")
+    
 
+    # **📌 Filter Section**
+    st.subheader("📋 Filter & Export Reports")
+    col1, col2 = st.columns(2)
 
+    with col1:
+        driver_filter = st.selectbox("Select Driver", ["All"] + df["Driver Name"].unique().tolist())
+
+    with col2:
+        date_filter = st.date_input("Select Date", pd.to_datetime("today"))
+
+    # Apply Filters
+    filtered_df = df.copy()
+
+    if driver_filter != "All":
+        filtered_df = filtered_df[filtered_df["Driver Name"] == driver_filter]
+
+    filtered_df = filtered_df[filtered_df["TimeStamp"].dt.date == date_filter]
+
+    # Display Filtered Data
+    st.dataframe(filtered_df)
+
+    # **📤 Export Report Buttons**
+    st.markdown("### 📄 Export Reports")
+
+    # Convert DataFrame to CSV
+    csv = filtered_df.to_csv(index=False).encode("utf-8")
+    
+    # Convert DataFrame to PDF
+    def generate_pdf(dataframe):
+        output = io.BytesIO()
+        pdf = dataframe.to_string(index=False)
+        output.write(pdf.encode("utf-8"))
+        output.seek(0)
+        return output
+
+    pdf = generate_pdf(filtered_df)
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.download_button("📥 Download CSV", csv, "report.csv", "text/csv")
+
+    with col2:
+        st.download_button("📥 Download PDF", pdf, "report.pdf", "application/pdf")
     # Refreshing data section
     refresh_button = st.button("🔄 Refresh Data", use_container_width=True)
     
     if refresh_button:
         with st.spinner("Refreshing data... Please wait."):
             time.sleep(2)  # Simulate some delay while loading data
-            df = gsheet.read_gsheet()  # Replace with actual data refresh logic
+            df = df=load_data()  # Replace with actual data refresh logic
             st.success("Data refreshed successfully!")
 
     # Refreshing Message
