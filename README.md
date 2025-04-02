@@ -27,15 +27,6 @@ The web-based dashboard provides real-time insights into fleet operations, allow
 - **Alerts & Notifications** – Sends alerts if violations exceed a set threshold.
 - **Filtering & Reports** – Allows date-wise and driver-wise filtering & report export (PDF/CSV).
 
-### 🔗 Dashboard Access
-🌐 **[Fleet Monitoring Dashboard](https://fleet-manager.streamlit.app/)**
-- **Username:** `admin`
-- **Password:** `fleet`
-
-### Wokwi Simulation
-🌐 **[Wokwi Simulator for hardware ](https://wokwi.com/projects/425977014448937985)**
-
-
 ## 🖥 Tech Stack
 - **Hardware:** ESP32 / Raspberry Pi Pico, MPU6050 (Accelerometer & Gyro)
 - **Software & Cloud:** MicroPython, Python (Flask/Streamlit), Google Sheets (Data Storage)
@@ -46,6 +37,30 @@ The web-based dashboard provides real-time insights into fleet operations, allow
 3. **Unsafe driving events** (harsh braking, acceleration) trigger alerting mechanism (buzzer/LED/OLED Screen).
 4. **Data is sent to the cloud** (Firebase/Google sheets) for storage & real-time updates.
 5. **Fleet managers view reports** on the web dashboard.
+
+## High level design of the project
+![flow_chart](https://github.com/user-attachments/assets/f5c5872f-0013-4779-ab57-04667432f36f)
+
+### Wokwi Simulation
+🌐 **[Wokwi Simulator for hardware ](https://wokwi.com/projects/425977014448937985)**
+<img width="727" alt="wokwi_ckt_diagram" src="https://github.com/user-attachments/assets/cdce7c15-05b1-48c0-8e56-593cdc802bc3" />
+
+
+### 🔗 Dashboard Access
+🌐 **[Fleet Monitoring Dashboard](https://fleet-manager.streamlit.app/)**
+- **Username:** `admin`
+- **Password:** `fleet`
+  
+## Dashboard screenshots
+<img width="1000" alt="w1" src="https://github.com/user-attachments/assets/ac78b318-f90a-41d0-a17a-cdf47a0e0d04" />
+
+<img width="1000" alt="w2" src="https://github.com/user-attachments/assets/24c5fc88-89fb-4499-8543-c45a0a444585" />
+
+<img width="1000" alt="w3" src="https://github.com/user-attachments/assets/8adf78a0-88e1-4519-a38a-e27727080959" />
+
+<img width="1000" alt="w4" src="https://github.com/user-attachments/assets/d2b73ce1-28d2-4eea-9912-9840b464c904" />
+
+
 
 ## 📌 Expected Impact
 ✅ **Reduced accidents** due to real-time unsafe driving detection.  
