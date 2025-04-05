@@ -18,11 +18,11 @@ with open("Token.pkl", "rb") as file:
 
 
 def add_entry(data):
-    creds = ServiceAccountCredentials.from_json_keyfile_name(file, scope)
     creds=ServiceAccountCredentials.from_json_keyfile_dict(Token)
     client = gspread.authorize(creds)
-    sheet = client.open("MicropythonTest").sheet1  # First sheet
+    sheet = client.open("MicropythonTest").worksheet("EmbeddedProject") 
     sheet.append_row(data)
+
 
 def time_now_old():
     # Define the Mountain Time zone (UTC-7 during standard time, UTC-6 during daylight saving time)
@@ -71,3 +71,10 @@ def read_gsheet():
      data = sheet.get_all_values()
      df = pd.DataFrame(data[1:], columns=data[0])  # Use first row as column headers
      return df
+
+#Demo To show adding Sample data to Google sheet
+#DRIVER_NAME = "Anmol"
+#vehicle_ids = {"Shabir":"JK02-0041", "Paras":"Van B456","Anmol":"PB02-0041", "Raghav":"Van D987"}
+#violations = ["Harsh Braking", "Harsh Acceleration", "Sharp Turns"]
+#data = [time_now(),DRIVER_NAME,vehicle_ids[DRIVER_NAME],random.choice(violations)]
+add_entry(data)
