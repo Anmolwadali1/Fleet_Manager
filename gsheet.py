@@ -16,14 +16,6 @@ Token=''
 with open("Token.pkl", "rb") as file:
     Token = pickle.load(file)
 
-
-def add_entry(data):
-    creds=ServiceAccountCredentials.from_json_keyfile_dict(Token)
-    client = gspread.authorize(creds)
-    sheet = client.open("MicropythonTest").worksheet("EmbeddedProject") 
-    sheet.append_row(data)
-
-
 def time_now_old():
     # Define the Mountain Time zone (UTC-7 during standard time, UTC-6 during daylight saving time)
     mountain_time_zone = pytz.timezone('US/Mountain')
@@ -72,9 +64,25 @@ def read_gsheet():
      df = pd.DataFrame(data[1:], columns=data[0])  # Use first row as column headers
      return df
 
+def log_data(violation_type,driver,vehicle_number):
+    creds=ServiceAccountCredentials.from_json_keyfile_dict(Token)
+    client = gspread.authorize(creds)
+    sheet = client.open("MicropythonTest").worksheet("EmbeddedProject") 
+    data = [time_now(),driver, vehicle_number,violation_type]
+    try:
+         sheet.append_row(data)
+         print("Data Logged to Gsheet successfully!!")
+    except:
+         print("Error in uploading data to cloud!!!")
+
+
+
 #Demo To show adding Sample data to Google sheet
-#DRIVER_NAME = "Anmol"
-#vehicle_ids = {"Shabir":"JK02-0041", "Paras":"Van B456","Anmol":"PB02-0041", "Raghav":"Van D987"}
-#violations = ["Harsh Braking", "Harsh Acceleration", "Sharp Turns"]
-#data = [time_now(),DRIVER_NAME,vehicle_ids[DRIVER_NAME],random.choice(violations)]
-#add_entry(data)
+# DRIVER_NAME = "Anmol"
+# VEHICLE_NAME= "PB02-0041"
+# VIOLATION_TYPE = "Harsh Braking"
+
+# log_data(VIOLATION_TYPE,DRIVER_NAME,VEHICLE_NAME)
+
+
+
