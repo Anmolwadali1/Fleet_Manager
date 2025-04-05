@@ -77,4 +77,4 @@ def read_gsheet():
 #vehicle_ids = {"Shabir":"JK02-0041", "Paras":"Van B456","Anmol":"PB02-0041", "Raghav":"Van D987"}
 #violations = ["Harsh Braking", "Harsh Acceleration", "Sharp Turns"]
 #data = [time_now(),DRIVER_NAME,vehicle_ids[DRIVER_NAME],random.choice(violations)]
-add_entry(data)
+#add_entry(data)
